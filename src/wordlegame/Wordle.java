@@ -7,35 +7,50 @@ public class Wordle{
     private int attempts;
 
     public Wordle(String secretWord, int attempts){
+
         this.secretWord = secretWord;
         this.attempts = attempts;
     }
+
     public void play(){
         Scanner scanner = new Scanner(System.in);
-        int currentAttempt = 0;
+        int remainingAttempts = attempts;
 
-        while(currentAttempt < attempts){
+        while(remainingAttempts > 0){
 
-           System.out.println("Attempt %d of %d, Enter Your Guess Word: ");
-           String guessWord = scanner.nextLine().toUpperCase();
+            System.out.println("Attempt #: " + remainingAttempts);
+            System.out.println("Enter Your Guess: ");
 
-            if(guessWord.length()!=secretWord.length()){
+           String guessWord = scanner.nextLine();
 
-                System.out.println("You must enter a word with " + secretWord + " characters!");
-                continue;
+           if (guessWord.length()!=secretWord.length()){
+               System.out.println("Invalid Entry! The word must have " + secretWord.length() + " characters!");
+               continue;
+           }
+
+           int correctPositions = 0;
+           int correctChars = 0;
+
+            for (int i = 0; i < secretWord.length(); i++) {
+                char c = guessWord.charAt(i);
+                if (c == secretWord.charAt(i)){
+                    correctPositions++;
+                } else if (secretWord.indexOf(c) >= 0) {
+                    correctChars++;
+                }
             }
-            if (guessWord.equals(secretWord)){
 
-                System.out.println("Congratulations! You have guessed it correctly!");
-                return;
+            if (correctPositions == secretWord.length()){
+                System.out.println("Congrats! You have guessed the secret word!" + secretWord);
+                break;
+            }else {
+                System.out.println("Correct characters: " + correctChars);
+                System.out.println("Correct positions: " + correctPositions);
+                remainingAttempts--;
             }
-
-            String feedback = getFeedback();
-            currentAttempt++;
         }
-    }
-    private String getFeedback(){
-
-        return feedback
+        if (remainingAttempts == 0){
+            System.out.println("Sorry, you are out of attempts! The secret word was: " + secretWord);
+        }
     }
 }

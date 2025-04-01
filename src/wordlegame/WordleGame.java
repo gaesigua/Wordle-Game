@@ -2,8 +2,8 @@ package wordlegame;
 
 public class WordleGame {
     public static void main(String[] args) {
-        Wordle wordle = new Wordle("Jewel", 6);
+        Wordle game = new Wordle("Jewel", 6);
 
-        wordle.play();
+        game.play();
     }
 }
